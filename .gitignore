@@ -33,6 +33,7 @@ packages/
 *.iws
 *.iml
 *.ipr
+target/
 
 # local env files
 .env.local
