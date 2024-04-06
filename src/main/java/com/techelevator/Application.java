@@ -6,23 +6,24 @@ import java.util.Scanner;
 public class Application {
 
 	private static final Scanner SCANNER = new Scanner(System.in);
+
 	public static void main(String[] args) {
 		mainMenu();
 	}
 
-	private static void mainMenu(){
+	private static void mainMenu() {
 		boolean keepRunning = true;
-		while(keepRunning){
+		while (keepRunning) {
 			System.out.println("(1) Display Vending Machine Items");
 			System.out.println("(2) Purchase");
 			System.out.println("(3) Exit");
 
-			try{
+			try {
 				int input = SCANNER.nextInt();
-				switch(input){
+				switch (input) {
 					case 1:
 						System.out.println("Run display code");
-						//display();
+						//display
 						return;
 					case 2:
 						purchaseMenu();
@@ -31,42 +32,49 @@ public class Application {
 						System.out.println("Thank you! Come again!");
 						keepRunning = false;
 						break;
+					case 4:
+						hiddenMenu();
+						return;
 				}
-			}catch(InputMismatchException e){
+			} catch (InputMismatchException e) {
 				System.out.println("Invalid input: " + e.getMessage());
 				break;
 			}
 		}
 	}
 
-	private static void purchaseMenu(){
+	private static void purchaseMenu() {
+		System.out.println("Current Money Provided: " + 0); //add user's money
+		System.out.println();
 		System.out.println("(1) Feed Money");
 		System.out.println("(2) Select Product");
 		System.out.println("(3) Finish Transaction");
 		System.out.println("(4) Main Menu");
 
-		try{
+		try {
 			int input = SCANNER.nextInt();
-
-			switch(input){
+			switch (input) {
 				case 1:
 					System.out.println("Run feed money code");
-					//feedMoney();
+					//feedMoney
 					return;
 				case 2:
 					System.out.println("Run select product code");
-					//selectProduct();
+					//selectProduct
 					return;
 				case 3:
 					System.out.println("Run finish transaction code");
-					//finishTransaction();
+					//finishTransaction
 					return;
 				case 4:
 					mainMenu();
 			}
-		}catch(InputMismatchException e){
+		} catch (InputMismatchException e) {
 			System.out.println("Invalid input: " + e.getMessage());
 		}
 	}
 
+	private static void hiddenMenu() {
+		System.out.println("Write sales report with date/time appended to end of file's name");
+	}
 }
