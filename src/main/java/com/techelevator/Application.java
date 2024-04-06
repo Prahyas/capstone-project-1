@@ -1,10 +1,11 @@
 package com.techelevator;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Application {
 
-	private static final Scanner scanner = new Scanner(System.in);
+	private static final Scanner SCANNER = new Scanner(System.in);
 	public static void main(String[] args) {
 		mainMenu();
 	}
@@ -17,56 +18,54 @@ public class Application {
 			System.out.println("(3) Exit");
 
 			try{
-				int input = scanner.nextInt();
-
+				int input = SCANNER.nextInt();
 				switch(input){
 					case 1:
-						System.out.println("run display method");
+						System.out.println("Run display code");
 						//display();
 						return;
 					case 2:
-						System.out.println("run purchase method");
-						purchase();
+						purchaseMenu();
 						return;
 					case 3:
-						System.out.println("Closing program.");
+						System.out.println("Thank you! Come again!");
 						keepRunning = false;
 						break;
 				}
-			}catch(Exception e){
-				System.out.println("invalid input");
+			}catch(InputMismatchException e){
+				System.out.println("Invalid input: " + e.getMessage());
+				break;
 			}
 		}
 	}
 
-	private static void purchase(){
+	private static void purchaseMenu(){
 		System.out.println("(1) Feed Money");
 		System.out.println("(2) Select Product");
 		System.out.println("(3) Finish Transaction");
 		System.out.println("(4) Main Menu");
 
 		try{
-			int input = scanner.nextInt();
+			int input = SCANNER.nextInt();
 
 			switch(input){
 				case 1:
-					System.out.println("run feed money method");
+					System.out.println("Run feed money code");
 					//feedMoney();
 					return;
 				case 2:
-					System.out.println("run select product method");
+					System.out.println("Run select product code");
 					//selectProduct();
 					return;
 				case 3:
-					System.out.println("run finish transaction method");
+					System.out.println("Run finish transaction code");
 					//finishTransaction();
 					return;
 				case 4:
-					System.out.println("Returning to Main Menu.");
 					mainMenu();
 			}
-		}catch(Exception e){
-			System.out.println("invalid input");
+		}catch(InputMismatchException e){
+			System.out.println("Invalid input: " + e.getMessage());
 		}
 	}
 
