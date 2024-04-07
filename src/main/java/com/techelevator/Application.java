@@ -44,7 +44,7 @@ public class Application {
 	}
 
 	private static void purchaseMenu() {
-		System.out.println("Current Money Provided: " + 0); //add user's money
+		System.out.println("Current Money Provided: " + Customer.getCurrentBalance()); //add user's money
 		System.out.println();
 		System.out.println("(1) Feed Money");
 		System.out.println("(2) Select Product");
@@ -57,6 +57,8 @@ public class Application {
 				case 1:
 					System.out.println("Run feed money code");
 					//feedMoney
+					int amountToDeposit = SCANNER.nextInt();
+					Customer.deposit(amountToDeposit);
 					return;
 				case 2:
 					System.out.println("Run select product code");
@@ -65,6 +67,8 @@ public class Application {
 				case 3:
 					System.out.println("Run finish transaction code");
 					//finishTransaction
+					Customer.returnChange();
+					Customer.zeroBalance();
 					return;
 				case 4:
 					mainMenu();
