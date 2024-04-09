@@ -20,35 +20,57 @@ public class CustomerTest {
 
     @Test
     public void checkDeposit() {
-        Customer.deposit(feedMoneyValue.intValue());
+        System.out.println("Money is added to the current balance");
+        Customer.deposit(feedMoneyValue.intValue()); // 0.00 + 5.00 = 5.00
         System.out.println("Expected: " + currentBalance.add(feedMoneyValue));
         System.out.println("Actual: " + Customer.getCurrentBalance());
         Assert.assertEquals(currentBalance.add(feedMoneyValue), Customer.getCurrentBalance());
-        Customer.zeroBalance();
+        System.out.println();
     }
 
     @Test
     public void checkPurchase() {
-        Customer.purchase(itemPrice);
+        System.out.println("Item price is subracted from current balance");
+        Customer.purchase(itemPrice); // 0 - 4.15 = -4.15
         System.out.println("Expected: " + currentBalance.subtract(itemPrice));
         System.out.println("Actual: " + Customer.getCurrentBalance());
         Assert.assertEquals(currentBalance.subtract(itemPrice), Customer.getCurrentBalance());
+        System.out.println();
     }
 
     @Test
     public void checkReturnChange() {
+        System.out.println("Print return of change for each type of coin");
         Customer.deposit(feedMoneyValue.intValue());
         Customer.purchase(itemPrice); // current balance = 5.00 - 4.15 = 0.85 -> 3 quarters and 1 dime
         System.out.println("Expected: Returned customer 3 quarter(s), 1 dime(s), 0 nickel(s) and 0 penny(ies)");
         System.out.print("Actual: ");
         Customer.returnChange();
+        System.out.println();
     }
 
     @Test
     public void zerorizeBalance() {
-        Customer.deposit(feedMoneyValue.intValue());
-        Customer.zeroBalance();
+        System.out.println("Make balance to zero");
+        Customer.deposit(feedMoneyValue.intValue()); // 5.00
+        Customer.zeroBalance(); // 5.00 - 5.00
+        System.out.println("Expected: 0.00");
+        System.out.println("Actual: " + Customer.getCurrentBalance());
         Assert.assertEquals(new BigDecimal("0.00"), Customer.getCurrentBalance());
+        System.out.println();
+    }
+
+    @Test
+    public void addTotalCost() {
+        System.out.println("Add purchased item price to the total cost");
+        Customer.addToTotalCost(itemPrice);
+        Customer.addToTotalCost(itemPrice);
+        Customer.addToTotalCost(itemPrice);
+        System.out.println("Expected: 12.45"); // 4.15 * 3 = 12.45
+        System.out.print("Actual: ");
+        System.out.println(Customer.getTotalCost());
+        Assert.assertEquals(new BigDecimal("12.45"), Customer.getTotalCost());
+        System.out.println();
     }
 }
 

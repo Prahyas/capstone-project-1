@@ -19,7 +19,7 @@ public class Log {
         }
         LocalDate date = LocalDate.now();
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss a");
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss a");
         String mmDDyyyyHHmmSSa = now.format(format);
         try {
             if(output == null) {

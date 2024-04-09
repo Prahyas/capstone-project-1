@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Customer {
+
     // Customer's current balance, statring with $0
     private static BigDecimal currentBalance = new BigDecimal("0.00");
     // Total purchase cost by Customer, starting with $0

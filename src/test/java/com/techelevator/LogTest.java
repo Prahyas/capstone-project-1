@@ -11,5 +11,8 @@ public class LogTest {
     public void checkLogFileAndAppend() {
         Log.log("Hello");
         Log.log("Hello again");
+        Log.log("Bye");
+        Log.log("Bye again");
+        Log.log("Printed in chronological order");
     }
 }
