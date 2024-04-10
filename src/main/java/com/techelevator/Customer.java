@@ -26,9 +26,14 @@ public class Customer {
 
     // Feed money and update the current balance
     public static void deposit(int amount) {
-        BigDecimal amountToDeposit = new BigDecimal(amount);
-        currentBalance = currentBalance.add(amountToDeposit);
-        Log.log(String.format("FEED MONEY: $%s.00 $%s", amountToDeposit, currentBalance));
+        if(amount > 0) {
+            BigDecimal amountToDeposit = new BigDecimal(amount);
+            currentBalance = currentBalance.add(amountToDeposit);
+            Log.log(String.format("FEED MONEY: $%s.00 $%s", amountToDeposit, currentBalance));
+        }
+        else {
+            System.out.println("Please input whole dollar amounts.");
+        }
     }
 
     // Subtract product price from the current balance and update the current balance

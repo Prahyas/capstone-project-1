@@ -16,7 +16,7 @@ public class Items {
     private static List<Items> itemDetails;
 
     public Items() {
-        itemDetails = getItemsDetails();
+        //itemDetails = getItemsDetails();
     }
 
     public Items(String itemSlot, String itemName, BigDecimal itemPrice, String itemCategory) {
@@ -40,7 +40,7 @@ public class Items {
     // getItemDetails method return the list of items
     // and its details like item slot, item name, item price and item category
     // that is read from the given csv file
-    public static List<Items> getItemsDetails() {
+    public List<Items> getItemsDetails() {
         String filePath = "vendingmachine.csv";
         itemDetails = new ArrayList<>();
         try (Scanner scanner = new Scanner(new FileReader(filePath))) {
@@ -51,8 +51,9 @@ public class Items {
                 String itemName = lineArray[1];
                 BigDecimal itemPrice = new BigDecimal(lineArray[2]);
                 String itemCategory = lineArray[3];
+                int itemQuantity = Integer.parseInt(lineArray[4]);
 
-                Items items = new Items(itemSlot, itemName, itemPrice, itemCategory);
+                Items items = new Items(itemSlot, itemName, itemPrice, itemCategory, itemQuantity);
                 itemDetails.add(items);
             }
         } catch (FileNotFoundException e) {
@@ -63,6 +64,9 @@ public class Items {
         return itemDetails;
     }
 
+    public String getItemSlot() {
+        return itemSlot;
+    }
     public String getItemName() {
         return itemName;
     }
@@ -107,6 +111,7 @@ public class Items {
     // to return the items from the array in a String format
     @Override
     public String toString() {
-        return String.format("Item Slot: %s, Item Name: %s, Item Price: $%.2f, Item Category: %s", itemSlot, itemName, itemPrice, itemCategory);
+        //return String.format("Item Slot: %s, Item Name: %s, Item Price: $%.2f, Item Category: %s, Item Stock: %s", itemSlot, itemName, itemPrice, itemCategory, itemQuantity);
+        return String.format("%s - %s - $%.2f - %s - %s", itemSlot, itemName, itemPrice, itemCategory, itemQuantity);
     }
 }

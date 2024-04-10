@@ -4,8 +4,8 @@ import java.util.*;
 
 public class Application {
 
-    private static final Scanner SCANNER = new Scanner(System.in);
-    private static Items item = new Items();
+    private static final Scanner inputScanner = new Scanner(System.in);
+    private static Items items = new Items();
 
     public static void main(String[] args) {
         mainMenu();
@@ -19,7 +19,7 @@ public class Application {
             System.out.println("(3) Exit");
 
             try {
-                int input = SCANNER.nextInt();
+                int input = inputScanner.nextInt();
                 switch (input) {
                     case 1:
                         System.out.println("Run display code");
@@ -49,7 +49,7 @@ public class Application {
     }
 
     private static void purchaseMenu() {
-        System.out.println("Current Money Provided: " + Customer.getCurrentBalance()); //add user's money
+        System.out.println("Current Money Provided: " + Customer.getCurrentBalance());
         System.out.println();
         System.out.println("(1) Feed Money");
         System.out.println("(2) Select Product");
@@ -57,20 +57,30 @@ public class Application {
         System.out.println("(4) Main Menu");
 
         try {
-            int input = SCANNER.nextInt();
+            int input = inputScanner.nextInt();
             switch (input) {
                 case 1:
-                    System.out.println("Run feed money code");
-                    //feedMoney
-                    int amountToDeposit = SCANNER.nextInt();
+                    System.out.println("Insert cash (whole dollar amounts):");
+                    int amountToDeposit = inputScanner.nextInt();
                     Customer.deposit(amountToDeposit);
-                    return;
+                    purchaseMenu();
                 case 2:
-                    System.out.println("Run select product code");
-                    //selectProduct
-                    // Display items including current stocks
-                    SCANNER.nextLine();
-                    String slotLocation = SCANNER.next(); // Slot location as input
+                    // Display items, including itemQuantity
+                    System.out.println("-----------------------------------");
+                    System.out.println("Code - Name - Price - Type - Stock");
+                    System.out.println("-----------------------------------");
+                    for(Items itemDetail : items.getItemsDetails()){
+                        System.out.println(itemDetail);
+                    }
+                    System.out.println("-----------------------------------");
+
+                    // Accept itemSlot input to purchase item
+                    System.out.println("Enter code to dispense item:");
+                    String slotInput = inputScanner.next();
+                    if(slotInput.equals(items.getItemSlot())){ /////////////////////////////////// Where I left off, not working
+                        System.out.println("Its in stock");
+                    }
+
                     // We need to check if input (slot location) is valid option
                     // We need to check if the product is sold out
                     // If the product is valid, then
