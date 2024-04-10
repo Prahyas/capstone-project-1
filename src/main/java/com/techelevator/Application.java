@@ -5,6 +5,7 @@ import java.util.*;
 public class Application {
 
     private static final Scanner SCANNER = new Scanner(System.in);
+    private static Items item = new Items();
 
     public static void main(String[] args) {
         mainMenu();
@@ -67,6 +68,23 @@ public class Application {
                 case 2:
                     System.out.println("Run select product code");
                     //selectProduct
+                    // Display items including current stocks
+                    SCANNER.nextLine();
+                    String slotLocation = SCANNER.next(); // Slot location as input
+                    // We need to check if input (slot location) is valid option
+                    // We need to check if the product is sold out
+                    // If the product is valid, then
+                    // We have to get itemPrice (BigDecimal), itemCategory (String) using product code
+                    // itemPrice -> Customer.purchase(itemPrice) and also in,
+                    // Customer.addToTotalCost(itemPrice) -> Use it for sales report
+                    // itemCategory -> we have to use it to print out
+                    /*
+                    All chip items print "Crunch Crunch, Yum!"
+                    All candy items print "Munch Munch, Yum!"
+                    All drink items print "Glug Glug, Yum!"
+                    All gum items print "Chew Chew, Yum!"
+                     */
+                    // We also need to track purchased items somewhere to use it for sales report
                     return;
                 case 3:
                     System.out.println("Run finish transaction code");

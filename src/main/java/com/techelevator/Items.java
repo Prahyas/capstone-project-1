@@ -13,6 +13,11 @@ public class Items {
     private BigDecimal itemPrice;
     private int itemQuantity;
     private int currentItemStock;
+    private static List<Items> itemDetails;
+
+    public Items() {
+        itemDetails = getItemsDetails();
+    }
 
     public Items(String itemSlot, String itemName, BigDecimal itemPrice, String itemCategory) {
         this.itemSlot = itemSlot;
@@ -37,7 +42,7 @@ public class Items {
     // that is read from the given csv file
     public static List<Items> getItemsDetails() {
         String filePath = "vendingmachine.csv";
-        List<Items> itemDetails = new ArrayList<>();
+        itemDetails = new ArrayList<>();
         try (Scanner scanner = new Scanner(new FileReader(filePath))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
