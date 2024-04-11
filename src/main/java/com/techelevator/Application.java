@@ -1,5 +1,6 @@
 package com.techelevator;
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class Application {
@@ -28,6 +29,8 @@ public class Application {
                         // there is a method getItemsDetails() in Items class
                         // that returns the array of items and
                         // can be used to display the items, by using a for loop
+
+
                         ;
                         return;
                     case 2:
@@ -69,7 +72,7 @@ public class Application {
                     System.out.println("-----------------------------------");
                     System.out.println("Code - Name - Price - Type - Stock");
                     System.out.println("-----------------------------------");
-                    for(Items itemDetail : items.getItemsDetails()){
+                    for (Items itemDetail : items.getItemsDetails()) {
                         System.out.println(itemDetail);
                     }
                     System.out.println("-----------------------------------");
@@ -77,7 +80,7 @@ public class Application {
                     // Accept itemSlot input to purchase item
                     System.out.println("Enter code to dispense item:");
                     String slotInput = inputScanner.next();
-                    if(slotInput.equals(items.getItemSlot())){ /////////////////////////////////// Where I left off, not working
+                    if (slotInput.equals(items.getItemSlot())) { /////////////////////////////////// Where I left off, not working
                         System.out.println("Its in stock");
                     }
 
