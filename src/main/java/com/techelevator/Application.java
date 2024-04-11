@@ -1,5 +1,6 @@
 package com.techelevator;
 
+import java.math.BigDecimal;
 import java.sql.SQLOutput;
 import java.util.*;
 
@@ -10,6 +11,7 @@ public class Application {
 
     public static void main(String[] args) {
         mainMenu();
+        inputScanner.close();
     }
 
     private static void mainMenu() {
@@ -24,14 +26,11 @@ public class Application {
                 switch (input) {
                     case 1:
                         System.out.println("Run display code");
-                        //display
 
                         // there is a method getItemsDetails() in Items class
                         // that returns the array of items and
                         // can be used to display the items, by using a for loop
 
-
-                        ;
                         return;
                     case 2:
                         purchaseMenu();
@@ -75,39 +74,41 @@ public class Application {
                     for (Items itemDetail : items.getItemsDetails()) {
                         System.out.println(itemDetail);
                     }
-                    System.out.println("-----------------------------------");
-
-                    // Accept itemSlot input to purchase item
+                    // Allow user to choose snack
                     System.out.println("Enter code to dispense item:");
                     String slotInput = inputScanner.next();
-                    if(items.getItemBySlotLocation(slotInput) != null && Customer.getCurrentBalance().compareTo(items.getItemBySlotLocation(slotInput).getItemPrice()) > 0 && items.getItemBySlotLocation(slotInput).getCurrentItemStock() > 0) {
-                        System.out.println("Dispensing " + items.getItemBySlotLocation(slotInput).getItemName() + ", Charging $" + items.getItemBySlotLocation(slotInput).getItemPrice());
-                        Customer.purchase(items.getItemBySlotLocation(slotInput).getItemPrice());
-                        //int newStock = items.getItemBySlotLocation(slotInput).getCurrentItemStock() - 1; //stock not updating stuck at 5
-                        //items.getItemBySlotLocation(slotInput).setCurrentItemStock(newStock); //try other methods
-                        System.out.println(items.getItemBySlotLocation(slotInput).getItemName() + "'s stock is now " + items.getItemBySlotLocation(slotInput).getCurrentItemStock());
-                        purchaseMenu();
+                    // Begin Checking
+                    if(hasSlot(items, slotInput)){
+                        Items chosenItem = items.getItemBySlotLocation(slotInput);
+                        if(hasMoney(chosenItem, Customer.getCurrentBalance())){
+                            if(hasStock(chosenItem)){ // Only does operations after passing the 3 tests
+                                System.out.println("Dispensing " + chosenItem.getItemName() + ", " + snackMessage(chosenItem));
+                                System.out.println("Charging $" + chosenItem.getItemPrice());
+
+                                Customer.purchase(chosenItem.getItemPrice());
+                                //items.setCurrentItemStock(items.getItemBySlotLocation(slotInput).getCurrentItemStock() - 1); // Not updating stock
+
+                                System.out.println(chosenItem.getItemName() + "'s stock is now " + chosenItem.getCurrentItemStock());
+                                System.out.println("-----------------------------------");
+                                purchaseMenu();
+                            } else {
+                                System.out.println("Item not in stock... Returning to Purchase Menu.");
+                                System.out.println("-----------------------------------");
+                                purchaseMenu();
+                            }
+                        } else {
+                            System.out.println("Not enough money... Returning to Purchase Menu.");
+                            System.out.println("-----------------------------------");
+                            purchaseMenu();
+                        }
                     } else {
-                        System.out.println("Invalid slot input or not enough cash... Returning to purchase menu.");
+                        System.out.println("Item slot doesn't exist... Returning to Purchase Menu.");
+                        System.out.println("-----------------------------------");
                         purchaseMenu();
                     }
 
+                    // Still need to track sales report/log/hidden menu
 
-
-                    // We need to check if input (slot location) is valid option
-                    // We need to check if the product is sold out
-                    // If the product is valid, then
-                    // We have to get itemPrice (BigDecimal), itemCategory (String) using product code
-                    // itemPrice -> Customer.purchase(itemPrice) and also in,
-                    // Customer.addToTotalCost(itemPrice) -> Use it for sales report
-                    // itemCategory -> we have to use it to print out
-                    /*
-                    All chip items print "Crunch Crunch, Yum!"
-                    All candy items print "Munch Munch, Yum!"
-                    All drink items print "Glug Glug, Yum!"
-                    All gum items print "Chew Chew, Yum!"
-                     */
-                    // We also need to track purchased items somewhere to use it for sales report
                     return;
                 case 3:
                     System.out.println("Run finish transaction code");
@@ -126,4 +127,36 @@ public class Application {
     private static void hiddenMenu() {
         System.out.println("Write sales report with date/time appended to end of file's name");
     }
+
+    private static boolean hasSlot(Items items, String slotInput){
+        return items.getItemBySlotLocation(slotInput) != null;
+    }
+
+    private static boolean hasMoney(Items items, BigDecimal balance){
+        return balance.compareTo(items.getItemPrice()) >= 0;
+    }
+
+    private static boolean hasStock(Items items){
+        return items.getCurrentItemStock() > 0;
+    }
+
+    private static String snackMessage(Items items){
+        String snackMessage = null;
+        switch (items.getItemCategory()) {
+            case "Chip":
+                snackMessage = "'Crunch Crunch, Yum!'";
+                break;
+            case "Candy":
+                snackMessage = "'Munch Munch, Yum!'";
+                break;
+            case "Drink":
+                snackMessage = "'Glug Glug, Yum!'";
+                break;
+            case "Gum":
+                snackMessage = "'Chew Chew, Yum!'";
+                break;
+        }
+        return snackMessage;
+    }
 }
+
