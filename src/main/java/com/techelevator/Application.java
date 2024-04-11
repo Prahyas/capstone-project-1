@@ -52,7 +52,7 @@ public class Application {
     }
 
     private static void purchaseMenu() {
-        System.out.println("Current Money Provided: " + Customer.getCurrentBalance());
+        System.out.println("Current Balance: $" + Customer.getCurrentBalance());
         System.out.println();
         System.out.println("(1) Feed Money");
         System.out.println("(2) Select Product");
@@ -80,9 +80,19 @@ public class Application {
                     // Accept itemSlot input to purchase item
                     System.out.println("Enter code to dispense item:");
                     String slotInput = inputScanner.next();
-                    if (slotInput.equals(items.getItemSlot())) { /////////////////////////////////// Where I left off, not working
-                        System.out.println("Its in stock");
+                    if(items.getItemBySlotLocation(slotInput) != null && Customer.getCurrentBalance().compareTo(items.getItemBySlotLocation(slotInput).getItemPrice()) > 0 && items.getItemBySlotLocation(slotInput).getCurrentItemStock() > 0) {
+                        System.out.println("Dispensing " + items.getItemBySlotLocation(slotInput).getItemName() + ", Charging $" + items.getItemBySlotLocation(slotInput).getItemPrice());
+                        Customer.purchase(items.getItemBySlotLocation(slotInput).getItemPrice());
+                        //int newStock = items.getItemBySlotLocation(slotInput).getCurrentItemStock() - 1; //stock not updating stuck at 5
+                        //items.getItemBySlotLocation(slotInput).setCurrentItemStock(newStock); //try other methods
+                        System.out.println(items.getItemBySlotLocation(slotInput).getItemName() + "'s stock is now " + items.getItemBySlotLocation(slotInput).getCurrentItemStock());
+                        purchaseMenu();
+                    } else {
+                        System.out.println("Invalid slot input or not enough cash... Returning to purchase menu.");
+                        purchaseMenu();
                     }
+
+
 
                     // We need to check if input (slot location) is valid option
                     // We need to check if the product is sold out
