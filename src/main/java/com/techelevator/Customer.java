@@ -52,6 +52,7 @@ public class Customer {
 
     // Return the customer's money using quarters, dimes and nickels in the smallest amount of coins possible
     public static void returnChange() {
+        Log.log(String.format("GIVE CHANGE: $%s, $0.00", currentBalance));
         int numberOfQuarters = (currentBalance.divide(QUARTER)).intValue();
         int numberOfDimes = ((currentBalance.subtract(QUARTER.multiply(new BigDecimal(numberOfQuarters)))).divide(DIME)).intValue();
         int numberOfNickels = ((currentBalance.subtract((QUARTER.multiply(new BigDecimal(numberOfQuarters))).add(DIME.multiply(new BigDecimal(numberOfDimes))))).divide(NICKEL)).intValue();

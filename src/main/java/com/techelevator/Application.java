@@ -7,9 +7,12 @@ import java.util.*;
 public class Application {
 
     private static final Scanner inputScanner = new Scanner(System.in);
-    private static final Items items = new Items();
+    private static Items items = new Items();
+    private static List<Items> itemsList = new ArrayList<>();
+    private static Map<String, Integer> salesReportList = new HashMap<>(); // String: purchased item name, Integer: how many each item was purchased
 
     public static void main(String[] args) {
+        itemsList = items.getItemsDetails();
         mainMenu();
         inputScanner.close();
     }
@@ -71,7 +74,7 @@ public class Application {
                     System.out.println("-----------------------------------");
                     System.out.println("Code - Name - Price - Type - Stock");
                     System.out.println("-----------------------------------");
-                    for (Items itemDetail : items.getItemsDetails()) {
+                    for (Items itemDetail : itemsList) {
                         System.out.println(itemDetail);
                     }
                     // Input
@@ -88,10 +91,10 @@ public class Application {
                                 System.out.println("Charging $" + chosenItem.getItemPrice());
 
                                 Customer.purchase(chosenItem.getItemPrice());
-                                // UPDATE STOCK HERE
-                                Log.log(chosenItem.getItemName() + " " + slotInput.toUpperCase() + " $" + chosenItem.getItemPrice() + " $" + Customer.getCurrentBalance());
-
-                                System.out.println(chosenItem.getItemName() + "'s stock is now " + chosenItem.getCurrentItemStock());
+                                Customer.addToTotalCost(findItemFromSlotInput(slotInput).getItemPrice());
+                                findItemFromSlotInput(slotInput).setCurrentItemStock(findItemFromSlotInput(slotInput).getCurrentItemStock() - 1); // Not updating stock
+                                Log.log(String.format("%s %s $%s $%s", findItemFromSlotInput(slotInput).getItemName(), slotInput, findItemFromSlotInput(slotInput).getItemPrice(), Customer.getCurrentBalance()));
+                                System.out.println(chosenItem.getItemName() + "'s stock is now " + findItemFromSlotInput(slotInput).getCurrentItemStock());
                                 System.out.println("-----------------------------------");
                                 purchaseMenu();
                             } else {
@@ -113,7 +116,7 @@ public class Application {
                 case 3:
                     Customer.returnChange(); // Add to Log
                     Customer.zeroBalance();
-                    return;
+                    purchaseMenu();
                 case 4:
                     mainMenu();
             }
@@ -177,6 +180,16 @@ public class Application {
                 break;
         }
         return snackMessage;
+    }
+
+    private static Items findItemFromSlotInput(String slotInput) {
+        for (Items item : itemsList) {
+            if (item.getItemSlot().equalsIgnoreCase(slotInput)) {
+                return item;
+            }
+        }
+        System.out.println("Unable to find the matching slot");
+        return null;
     }
 }
 
