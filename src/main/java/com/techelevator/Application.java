@@ -7,7 +7,7 @@ import java.util.*;
 public class Application {
 
     private static final Scanner inputScanner = new Scanner(System.in);
-    private static Items items = new Items();
+    private static final Items items = new Items();
 
     public static void main(String[] args) {
         mainMenu();
@@ -67,26 +67,29 @@ public class Application {
                     Customer.deposit(amountToDeposit);
                     purchaseMenu();
                 case 2:
-                    // Display items, including itemQuantity
+                    // Display items
                     System.out.println("-----------------------------------");
                     System.out.println("Code - Name - Price - Type - Stock");
                     System.out.println("-----------------------------------");
                     for (Items itemDetail : items.getItemsDetails()) {
                         System.out.println(itemDetail);
                     }
-                    // Allow user to choose snack
-                    System.out.println("Enter code to dispense item:");
+                    // Input
+                    System.out.println("Input your snack code:");
                     String slotInput = inputScanner.next();
                     // Begin Checking
                     if(hasSlot(items, slotInput)){
                         Items chosenItem = items.getItemBySlotLocation(slotInput);
+
                         if(hasMoney(chosenItem, Customer.getCurrentBalance())){
+
                             if(hasStock(chosenItem)){ // Only does operations after passing the 3 tests
                                 System.out.println("Dispensing " + chosenItem.getItemName() + ", " + snackMessage(chosenItem));
                                 System.out.println("Charging $" + chosenItem.getItemPrice());
 
                                 Customer.purchase(chosenItem.getItemPrice());
-                                //items.setCurrentItemStock(items.getItemBySlotLocation(slotInput).getCurrentItemStock() - 1); // Not updating stock
+                                // UPDATE STOCK HERE
+                                Log.log(chosenItem.getItemName() + " " + slotInput.toUpperCase() + " $" + chosenItem.getItemPrice() + " $" + Customer.getCurrentBalance());
 
                                 System.out.println(chosenItem.getItemName() + "'s stock is now " + chosenItem.getCurrentItemStock());
                                 System.out.println("-----------------------------------");
@@ -106,14 +109,9 @@ public class Application {
                         System.out.println("-----------------------------------");
                         purchaseMenu();
                     }
-
-                    // Still need to track sales report/log/hidden menu
-
                     return;
                 case 3:
-                    System.out.println("Run finish transaction code");
-                    //finishTransaction
-                    Customer.returnChange();
+                    Customer.returnChange(); // Add to Log
                     Customer.zeroBalance();
                     return;
                 case 4:
@@ -125,7 +123,29 @@ public class Application {
     }
 
     private static void hiddenMenu() {
-        System.out.println("Write sales report with date/time appended to end of file's name");
+        /*
+        Track all purchases and how many purchased somehow.
+        Also all sales so far. Print to console, then exit.
+
+        Potato Crisps|0
+        Stackers|1
+        Grain Waves|0
+        Cloud Popcorn|0
+        Moonpie|3
+        Cowtales|0
+        Wonka Bar|0
+        Crunchie|0
+        Cola|2
+        Dr. Salt|0
+        Mountain Melter|0
+        Heavy|0
+        U-Chews|0
+        Little League Chew|1
+        Chiclets|1
+        Triplemint|0
+
+        **TOTAL SALES** $11.05
+         */
     }
 
     private static boolean hasSlot(Items items, String slotInput){

@@ -25,7 +25,6 @@ public class Items {
         this.itemStock = itemStock;
     }
 
-
     public String getItemSlot() {
         return itemSlot;
     }
@@ -80,8 +79,7 @@ public class Items {
                 String itemName = lineArray[1];
                 BigDecimal itemPrice = new BigDecimal(lineArray[2]);
                 String itemCategory = lineArray[3];
-                int itemStock = DEFAULT_STOCK_QUANTITY;
-                Items items = new Items(itemSlot, itemName, itemPrice, itemCategory, itemStock);
+                Items items = new Items(itemSlot, itemName, itemPrice, itemCategory, DEFAULT_STOCK_QUANTITY);
                 itemDetails.add(items);
             }
         } catch (FileNotFoundException e) {
@@ -92,7 +90,6 @@ public class Items {
         return itemDetails;
     }
 
-
     // adding a method that returns the item according to the slot location.
     public Items getItemBySlotLocation(String slotLocation) {
         for (Items item : getItemsDetails()) {
@@ -102,7 +99,6 @@ public class Items {
         }
         return null;
     }
-
 
     // overrides the default toSring() method
     // to return the items from the array in a String format
