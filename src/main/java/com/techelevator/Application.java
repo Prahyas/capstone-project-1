@@ -9,10 +9,12 @@ public class Application {
     private static final Scanner inputScanner = new Scanner(System.in);
     private static Items items = new Items();
     private static List<Items> itemsList = new ArrayList<>();
-    private static Map<String, Integer> salesReportList = new HashMap<>(); // String: purchased item name, Integer: how many each item was purchased
+    private static ShoppingCart shoppingCart;
+
 
     public static void main(String[] args) {
-        itemsList = items.getItemsDetails();
+        itemsList = items.getItemDetails();
+        shoppingCart = new ShoppingCart(itemsList);
         mainMenu();
         inputScanner.close();
     }
@@ -29,22 +31,18 @@ public class Application {
                 switch (input) {
                     case 1:
                         System.out.println("Run display code");
-
-                        // there is a method getItemsDetails() in Items class
-                        // that returns the array of items and
-                        // can be used to display the items, by using a for loop
-
-                        return;
+                        for (Items itemDetail : itemsList) {
+                            System.out.println(itemDetail);
+                        }
+                        mainMenu();
                     case 2:
                         purchaseMenu();
-                        return;
                     case 3:
                         System.out.println("Thank you! Come again!");
                         keepRunning = false;
                         break;
                     case 4:
                         hiddenMenu();
-                        return;
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input: " + e.getMessage());
@@ -89,12 +87,12 @@ public class Application {
                             if(hasStock(chosenItem)){ // Only does operations after passing the 3 tests
                                 System.out.println("Dispensing " + chosenItem.getItemName() + ", " + snackMessage(chosenItem));
                                 System.out.println("Charging $" + chosenItem.getItemPrice());
-
                                 Customer.purchase(chosenItem.getItemPrice());
-                                Customer.addToTotalCost(findItemFromSlotInput(slotInput).getItemPrice());
-                                findItemFromSlotInput(slotInput).setCurrentItemStock(findItemFromSlotInput(slotInput).getCurrentItemStock() - 1); // Not updating stock
-                                Log.log(String.format("%s %s $%s $%s", findItemFromSlotInput(slotInput).getItemName(), slotInput, findItemFromSlotInput(slotInput).getItemPrice(), Customer.getCurrentBalance()));
-                                System.out.println(chosenItem.getItemName() + "'s stock is now " + findItemFromSlotInput(slotInput).getCurrentItemStock());
+                                Customer.addToTotalCost(chosenItem.getItemPrice());
+                                shoppingCart.addToCart(chosenItem);
+                                chosenItem.setCurrentItemStock(chosenItem.getCurrentItemStock() - 1); // Not updating stock
+                                Log.log(String.format("%s %s $%s $%s", chosenItem.getItemName(), slotInput, chosenItem.getItemPrice(), Customer.getCurrentBalance()));
+                                System.out.println(chosenItem.getItemName() + "'s stock is now " + chosenItem.getCurrentItemStock());
                                 System.out.println("-----------------------------------");
                                 purchaseMenu();
                             } else {
@@ -112,7 +110,7 @@ public class Application {
                         System.out.println("-----------------------------------");
                         purchaseMenu();
                     }
-                    return;
+                    purchaseMenu();
                 case 3:
                     Customer.returnChange(); // Add to Log
                     Customer.zeroBalance();
@@ -126,6 +124,8 @@ public class Application {
     }
 
     private static void hiddenMenu() {
+        shoppingCart.printSalesReport();
+        mainMenu();
         /*
         Track all purchases and how many purchased somehow.
         Also all sales so far. Print to console, then exit.
@@ -180,16 +180,6 @@ public class Application {
                 break;
         }
         return snackMessage;
-    }
-
-    private static Items findItemFromSlotInput(String slotInput) {
-        for (Items item : itemsList) {
-            if (item.getItemSlot().equalsIgnoreCase(slotInput)) {
-                return item;
-            }
-        }
-        System.out.println("Unable to find the matching slot");
-        return null;
     }
 }
 

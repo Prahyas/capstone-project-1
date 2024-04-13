@@ -7,6 +7,7 @@ import java.util.*;
 
 public class Items {
     private static final int DEFAULT_STOCK_QUANTITY = 5;
+    private static List<Items> itemDetails = new ArrayList<>();
     private String itemSlot;
     private String itemName;
     private BigDecimal itemPrice;
@@ -14,7 +15,7 @@ public class Items {
     private int itemStock;
 
     public Items() {
-        //itemDetails = getItemsDetails();
+        itemDetails = initializieItemsDetails();
     }
 
     public Items(String itemSlot, String itemName, BigDecimal itemPrice, String itemCategory, int itemStock) {
@@ -65,12 +66,15 @@ public class Items {
         this.itemStock = currentItemStock;
     }
 
+    public List<Items> getItemDetails() {
+        return itemDetails;
+    }
+
     // getItemDetails method return the list of items
     // and its details like item slot, item name, item price, item category, item stock
     // that is read from the given csv file
-    public List<Items> getItemsDetails() {
+    public List<Items> initializieItemsDetails() {
         String filePath = "vendingmachine.csv";
-        List<Items> itemDetails = new ArrayList<>();
         try (Scanner scanner = new Scanner(new FileReader(filePath))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
@@ -92,7 +96,7 @@ public class Items {
 
     // adding a method that returns the item according to the slot location.
     public Items getItemBySlotLocation(String slotLocation) {
-        for (Items item : getItemsDetails()) {
+        for (Items item : itemDetails) {
             if (item.getItemSlot().equalsIgnoreCase(slotLocation)) {
                 return item;
             }
