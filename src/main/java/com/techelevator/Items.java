@@ -30,32 +30,16 @@ public class Items {
         return itemSlot;
     }
 
-    public void setItemSlot(String itemSlot) {
-        this.itemSlot = itemSlot;
-    }
-
     public String getItemName() {
         return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
     }
 
     public BigDecimal getItemPrice() {
         return itemPrice;
     }
 
-    public void setItemPrice(BigDecimal itemPrice) {
-        this.itemPrice = itemPrice;
-    }
-
     public String getItemCategory() {
         return itemCategory;
-    }
-
-    public void setItemCategory(String itemCategory) {
-        this.itemCategory = itemCategory;
     }
 
     public int getCurrentItemStock() {
@@ -108,24 +92,7 @@ public class Items {
     // to return the items from the array in a String format
     @Override
     public String toString() {
-        //return String.format("Item Slot: %s, Item Name: %s, Item Price: $%.2f, Item Category: %s, Item Stock: %s", itemSlot, itemName, itemPrice, itemCategory, itemQuantity);
-        return String.format("%s - %s - $%.2f - %s - %s", itemSlot, itemName, itemPrice, itemCategory, itemStock);
+        return String.format("%s - %s - $%.2f - %s - %s",
+                itemSlot, itemName, itemPrice, itemCategory, itemStock);
     }
-
 }
-
-
-// dummy code
-
-//                        Items items = new Items();
-//                        for (Items item : items.getItemsDetails()) {
-//                            System.out.println(item.toString());
-//                        }
-//
-//                        Items selectedItem = items.getItemBySlotLocation("A2");
-//                        if (selectedItem != null) {
-//                            System.out.println("This is the selected item : " + selectedItem);
-//                        } else {
-//                            System.out.println("Cannot find the item");
-//                        }
-

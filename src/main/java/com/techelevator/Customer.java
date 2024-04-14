@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class Customer {
 
-    // Customer's current balance, statring with $0
+    // Customer's current balance, starting with $0
     private static BigDecimal currentBalance = new BigDecimal("0.00");
     // Total purchase cost by Customer, starting with $0
     private static BigDecimal totalCost = new BigDecimal("0.00");
@@ -55,8 +55,10 @@ public class Customer {
     public static void returnChange() {
         Log.log(String.format("GIVE CHANGE: $%s, $0.00", currentBalance));
         int numberOfQuarters = (currentBalance.divide(QUARTER)).intValue();
-        int numberOfDimes = ((currentBalance.subtract(QUARTER.multiply(new BigDecimal(numberOfQuarters)))).divide(DIME)).intValue();
-        int numberOfNickels = ((currentBalance.subtract((QUARTER.multiply(new BigDecimal(numberOfQuarters))).add(DIME.multiply(new BigDecimal(numberOfDimes))))).divide(NICKEL)).intValue();
+        int numberOfDimes = ((currentBalance.subtract(QUARTER.multiply(new BigDecimal(numberOfQuarters))))
+                .divide(DIME)).intValue();
+        int numberOfNickels = ((currentBalance.subtract((QUARTER.multiply(new BigDecimal(numberOfQuarters)))
+                .add(DIME.multiply(new BigDecimal(numberOfDimes))))).divide(NICKEL)).intValue();
         System.out.println(
                 String.format("Returned customer %d quarter(s), %d dime(s), %d nickel(s)",
                         numberOfQuarters, numberOfDimes, numberOfNickels));

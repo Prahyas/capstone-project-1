@@ -12,7 +12,6 @@ public class Application {
     private static List<Items> itemsList = new ArrayList<>();
     private static ShoppingCart shoppingCart;
 
-
     public static void main(String[] args) {
         itemsList = items.getItemDetails();
         shoppingCart = new ShoppingCart(itemsList);
@@ -31,10 +30,13 @@ public class Application {
                 int input = inputScanner.nextInt();
                 switch (input) {
                     case 1:
-                        System.out.println("Run display code");
+                        System.out.println("-----------------------------------");
+                        System.out.println("Code - Name - Price - Type - Stock");
+                        System.out.println("-----------------------------------");
                         for (Items itemDetail : itemsList) {
                             System.out.println(itemDetail);
                         }
+                        System.out.println();
                         mainMenu();
                         return;
                     case 2:
@@ -47,9 +49,11 @@ public class Application {
                     case 4:
                         hiddenMenu();
                         return;
+                    default:
+                        return;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input: " + e.getMessage());
+                System.out.println("Invalid input: " + e.getMessage() + ", Exiting Program.");
                 break;
             }
         }
@@ -83,20 +87,28 @@ public class Application {
                     // Input
                     System.out.println("Input your snack code:");
                     String slotInput = inputScanner.next();
-                    // Begin Checking
+                    /*
+                     * The input will now have to pass three tests: if the slot exists, if the Customer has
+                     * money, and if the Item is in stock. Only if all three tests pass then will the
+                     * operations be run to purchase the Item. A successful purchase includes deducting
+                     * from the Customers current balance, reducing the chosen Item's stock by 1, and
+                     * adding the transaction to the Log. Lastly, after a purchase we return to the
+                     * purchaseMenu so that the Customer can buy more snacks or perform other options.
+                     */
                     if(hasSlot(items, slotInput)){
                         Items chosenItem = items.getItemBySlotLocation(slotInput);
 
                         if(hasMoney(chosenItem, Customer.getCurrentBalance())){
 
-                            if(hasStock(chosenItem)){ // Only does operations after passing the 3 tests
+                            if(hasStock(chosenItem)){
                                 System.out.println("Dispensing " + chosenItem.getItemName() + ", " + snackMessage(chosenItem));
                                 System.out.println("Charging $" + chosenItem.getItemPrice());
                                 Customer.purchase(chosenItem.getItemPrice());
                                 Customer.addToTotalCost(chosenItem.getItemPrice());
                                 shoppingCart.addToCart(chosenItem);
-                                chosenItem.setCurrentItemStock(chosenItem.getCurrentItemStock() - 1); // Not updating stock
-                                Log.log(String.format("%s %s $%s $%s", chosenItem.getItemName(), slotInput, chosenItem.getItemPrice(), Customer.getCurrentBalance()));
+                                chosenItem.setCurrentItemStock(chosenItem.getCurrentItemStock() - 1);
+                                Log.log(String.format("%s %s $%s $%s",
+                                        chosenItem.getItemName(), slotInput, chosenItem.getItemPrice(), Customer.getCurrentBalance()));
                                 System.out.println(chosenItem.getItemName() + "'s stock is now " + chosenItem.getCurrentItemStock());
                                 System.out.println("-----------------------------------");
                                 purchaseMenu();
@@ -120,15 +132,17 @@ public class Application {
                         return;
                     }
                 case 3:
-                    Customer.returnChange(); // Add to Log
+                    Customer.returnChange();
                     Customer.zeroBalance();
                     purchaseMenu();
                     return;
                 case 4:
                     mainMenu();
+                default:
+                    break;
             }
         } catch (InputMismatchException e) {
-            System.out.println("Invalid input: " + e.getMessage());
+            System.out.println("Invalid input: " + e.getMessage() + ", Exiting Program.");
         }
     }
 
@@ -164,6 +178,9 @@ public class Application {
                 break;
             case "Gum":
                 snackMessage = "'Chew Chew, Yum!'";
+                break;
+            default:
+                snackMessage = "snackMessage was not found.";
                 break;
         }
         return snackMessage;

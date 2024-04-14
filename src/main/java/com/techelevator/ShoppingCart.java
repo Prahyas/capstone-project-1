@@ -38,10 +38,10 @@ public class ShoppingCart {
         System.out.println();
         salesReport.append("\n").append("TOTAL SALES $").append(Customer.getTotalCost());
         System.out.println("TOTAL SALES $" + Customer.getTotalCost());
+        System.out.println();
 
         //Log.salesReportLog(String.format("**SALES REPORT**\n\n%s", salesReport));
 
         return salesReport.toString();
     }
-
 }
