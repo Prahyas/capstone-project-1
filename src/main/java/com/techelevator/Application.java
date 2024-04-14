@@ -1,7 +1,8 @@
 package com.techelevator;
 
+import com.techelevator.log.Log;
+
 import java.math.BigDecimal;
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class Application {
@@ -35,14 +36,17 @@ public class Application {
                             System.out.println(itemDetail);
                         }
                         mainMenu();
+                        return;
                     case 2:
                         purchaseMenu();
+                        return;
                     case 3:
                         System.out.println("Thank you! Come again!");
                         keepRunning = false;
                         break;
                     case 4:
                         hiddenMenu();
+                        return;
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input: " + e.getMessage());
@@ -67,6 +71,7 @@ public class Application {
                     int amountToDeposit = inputScanner.nextInt();
                     Customer.deposit(amountToDeposit);
                     purchaseMenu();
+                    return;
                 case 2:
                     // Display items
                     System.out.println("-----------------------------------");
@@ -95,26 +100,30 @@ public class Application {
                                 System.out.println(chosenItem.getItemName() + "'s stock is now " + chosenItem.getCurrentItemStock());
                                 System.out.println("-----------------------------------");
                                 purchaseMenu();
+                                return;
                             } else {
                                 System.out.println("Item not in stock... Returning to Purchase Menu.");
                                 System.out.println("-----------------------------------");
                                 purchaseMenu();
+                                return;
                             }
                         } else {
                             System.out.println("Not enough money... Returning to Purchase Menu.");
                             System.out.println("-----------------------------------");
                             purchaseMenu();
+                            return;
                         }
                     } else {
                         System.out.println("Item slot doesn't exist... Returning to Purchase Menu.");
                         System.out.println("-----------------------------------");
                         purchaseMenu();
+                        return;
                     }
-                    purchaseMenu();
                 case 3:
                     Customer.returnChange(); // Add to Log
                     Customer.zeroBalance();
                     purchaseMenu();
+                    return;
                 case 4:
                     mainMenu();
             }
@@ -124,31 +133,9 @@ public class Application {
     }
 
     private static void hiddenMenu() {
-        shoppingCart.printSalesReport();
+        String salesReport = shoppingCart.printSalesReport();
+        Log.salesReportLog(String.format(salesReport));
         mainMenu();
-        /*
-        Track all purchases and how many purchased somehow.
-        Also all sales so far. Print to console, then exit.
-
-        Potato Crisps|0
-        Stackers|1
-        Grain Waves|0
-        Cloud Popcorn|0
-        Moonpie|3
-        Cowtales|0
-        Wonka Bar|0
-        Crunchie|0
-        Cola|2
-        Dr. Salt|0
-        Mountain Melter|0
-        Heavy|0
-        U-Chews|0
-        Little League Chew|1
-        Chiclets|1
-        Triplemint|0
-
-        **TOTAL SALES** $11.05
-         */
     }
 
     private static boolean hasSlot(Items items, String slotInput){

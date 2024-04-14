@@ -1,4 +1,4 @@
-package com.techelevator;
+package com.techelevator.log;
 
 public class LogException extends RuntimeException{
 

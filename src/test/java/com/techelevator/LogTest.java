@@ -1,9 +1,7 @@
 package com.techelevator;
 
-import org.junit.Assert;
+import com.techelevator.log.Log;
 import org.junit.Test;
-
-import java.math.BigDecimal;
 
 public class LogTest {
 

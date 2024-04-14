@@ -11,6 +11,10 @@ public class ShoppingCart {
     private static Map<String, Integer> salesReportList = new HashMap<>();
     private final int INITIAL_QUANTITY_OF_PURCHASED_ITEMS = 0;
 
+    public Map<String, Integer> getSalesReportList() {
+        return salesReportList;
+    }
+
     public ShoppingCart(List<Items> itemsList) {
         for(Items item : itemsList) {
             salesReportList.put(item.getItemName(), INITIAL_QUANTITY_OF_PURCHASED_ITEMS);
@@ -22,8 +26,9 @@ public class ShoppingCart {
         salesReportList.put(chosenItem.getItemName(), currentNumberOfThePurchasedItem + 1);
     }
 
-    public void printSalesReport() {
+    public String printSalesReport() {
         StringBuilder salesReport = new StringBuilder();
+        salesReport.append("**SALES REPORT**\n\n");
         System.out.println("**SALES REPORT**");
         System.out.println();
         for(Map.Entry<String, Integer> item : salesReportList.entrySet()) {
@@ -33,7 +38,10 @@ public class ShoppingCart {
         System.out.println();
         salesReport.append("\n").append("TOTAL SALES $").append(Customer.getTotalCost());
         System.out.println("TOTAL SALES $" + Customer.getTotalCost());
-        Log.salesReportLog(String.format("**SALES REPORT**\n\n%s", salesReport));
+
+        //Log.salesReportLog(String.format("**SALES REPORT**\n\n%s", salesReport));
+
+        return salesReport.toString();
     }
 
 }
