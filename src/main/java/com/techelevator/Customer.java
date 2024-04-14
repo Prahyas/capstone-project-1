@@ -20,10 +20,6 @@ public class Customer {
         return currentBalance;
     }
 
-    // Return the current total cost
-    public static BigDecimal getTotalCost() {
-        return totalCost;
-    }
 
     // Feed money and update the current balance
     public static void deposit(int amount) {
@@ -38,9 +34,6 @@ public class Customer {
     }
 
     // Subtract product price from the current balance and update the current balance
-    // I need to find product name and slot location as well, but if I want to find both info here, I will have to call list of items here
-    // and be better to use product code (slot location) as a parameter in the purchase method.
-    // Or, I can implement log method in the Application class, that will make easy to find product name.
     public static void purchase(BigDecimal itemPrice) {
         currentBalance = currentBalance.subtract(itemPrice);
         //Log.log(String.format("%s %s: $%s $%s", itemPrice, currentBalance));
@@ -64,8 +57,4 @@ public class Customer {
                         numberOfQuarters, numberOfDimes, numberOfNickels));
     }
 
-    // When dispensing an item, add the purchased product price to the current total cost
-    public static void addToTotalCost(BigDecimal itemPrice) {
-        totalCost = totalCost.add(itemPrice);
-    }
 }

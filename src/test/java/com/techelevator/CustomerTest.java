@@ -12,6 +12,8 @@ public class CustomerTest {
     private BigDecimal currentBalance = new BigDecimal("0.00");
     private BigDecimal feedMoneyValue = new BigDecimal("5.00");
     private BigDecimal itemPrice = new BigDecimal("4.15");
+    private Items itemsList = new Items();
+    private ShoppingCart shoppingCart = new ShoppingCart(itemsList.getItemDetails());
 
     @Before
     public void makeCurrentBalanceToZero() {
@@ -63,13 +65,13 @@ public class CustomerTest {
     @Test
     public void addTotalCost() {
         System.out.println("Add purchased item price to the total cost");
-        Customer.addToTotalCost(itemPrice);
-        Customer.addToTotalCost(itemPrice);
-        Customer.addToTotalCost(itemPrice);
+        shoppingCart.addToTotalCost(itemPrice);
+        shoppingCart.addToTotalCost(itemPrice);
+        shoppingCart.addToTotalCost(itemPrice);
         System.out.println("Expected: 12.45"); // 4.15 * 3 = 12.45
         System.out.print("Actual: ");
-        System.out.println(Customer.getTotalCost());
-        Assert.assertEquals(new BigDecimal("12.45"), Customer.getTotalCost());
+        System.out.println(shoppingCart.getTotalCost());
+        Assert.assertEquals(new BigDecimal("12.45"), shoppingCart.getTotalCost());
         System.out.println();
     }
 }

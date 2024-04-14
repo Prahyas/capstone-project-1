@@ -39,8 +39,8 @@ public class SalesReportTest {
         Items potatoCrips = items.getItemBySlotLocation("a2");
         salesReportList.put(stackers.getItemName(), 1);
         salesReportList.put(potatoCrips.getItemName(), 1);
-        Customer.addToTotalCost(stackers.getItemPrice());
-        Customer.addToTotalCost(potatoCrips.getItemPrice());
+        shoppingCart.addToTotalCost(stackers.getItemPrice());
+        shoppingCart.addToTotalCost(potatoCrips.getItemPrice());
 
     }
 

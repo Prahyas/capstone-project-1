@@ -104,8 +104,8 @@ public class Application {
                                 System.out.println("Dispensing " + chosenItem.getItemName() + ", " + snackMessage(chosenItem));
                                 System.out.println("Charging $" + chosenItem.getItemPrice());
                                 Customer.purchase(chosenItem.getItemPrice());
-                                Customer.addToTotalCost(chosenItem.getItemPrice());
                                 shoppingCart.addToCart(chosenItem);
+                                shoppingCart.addToTotalCost(chosenItem.getItemPrice());
                                 chosenItem.setCurrentItemStock(chosenItem.getCurrentItemStock() - 1);
                                 Log.log(String.format("%s %s $%s $%s",
                                         chosenItem.getItemName(), slotInput, chosenItem.getItemPrice(), Customer.getCurrentBalance()));
