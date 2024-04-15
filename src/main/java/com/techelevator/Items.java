@@ -26,6 +26,40 @@ public class Items {
         this.itemStock = itemStock;
     }
 
+    // getItemDetails method return the list of items
+    // and its details like item slot, item name, item price, item category, item stock
+    // that is read from the given csv file
+    public static List<Items> initializieItemsDetails() {
+        String filePath = "vendingmachine.csv";
+        try (Scanner scanner = new Scanner(new FileReader(filePath))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] lineArray = line.split("\\|");
+                String itemSlot = lineArray[0];
+                String itemName = lineArray[1];
+                BigDecimal itemPrice = new BigDecimal(lineArray[2]);
+                String itemCategory = lineArray[3];
+                Items items = new Items(itemSlot, itemName, itemPrice, itemCategory, DEFAULT_STOCK_QUANTITY);
+                itemDetails.add(items);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error! File not found : " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Error! Invalid format for Price " + e.getMessage());
+        }
+        return itemDetails;
+    }
+
+    // adding a method that returns the item according to the slot location.
+    public static Items getItemBySlotLocation(String slotLocation) {
+        for (Items item : itemDetails) {
+            if (item.getItemSlot().equalsIgnoreCase(slotLocation)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
     public String getItemSlot() {
         return itemSlot;
     }
@@ -52,40 +86,6 @@ public class Items {
 
     public List<Items> getItemDetails() {
         return itemDetails;
-    }
-
-    // getItemDetails method return the list of items
-    // and its details like item slot, item name, item price, item category, item stock
-    // that is read from the given csv file
-    public List<Items> initializieItemsDetails() {
-        String filePath = "vendingmachine.csv";
-        try (Scanner scanner = new Scanner(new FileReader(filePath))) {
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] lineArray = line.split("\\|");
-                String itemSlot = lineArray[0];
-                String itemName = lineArray[1];
-                BigDecimal itemPrice = new BigDecimal(lineArray[2]);
-                String itemCategory = lineArray[3];
-                Items items = new Items(itemSlot, itemName, itemPrice, itemCategory, DEFAULT_STOCK_QUANTITY);
-                itemDetails.add(items);
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("Error! File not found : " + e.getMessage());
-        } catch (NumberFormatException e) {
-            System.out.println("Error! Invalid format for Price " + e.getMessage());
-        }
-        return itemDetails;
-    }
-
-    // adding a method that returns the item according to the slot location.
-    public Items getItemBySlotLocation(String slotLocation) {
-        for (Items item : itemDetails) {
-            if (item.getItemSlot().equalsIgnoreCase(slotLocation)) {
-                return item;
-            }
-        }
-        return null;
     }
 
     // overrides the default toSring() method
